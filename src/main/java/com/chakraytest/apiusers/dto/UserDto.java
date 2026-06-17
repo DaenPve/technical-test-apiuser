@@ -1,45 +1,50 @@
-package com.chakraytest.apiusers.model;
+package com.chakraytest.apiusers.dto;
 
 import java.util.List;
-import java.util.UUID;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Pattern;
 
-public class User {
-    private UUID id;
+public class UserDto {
+    
+    @Email(message = "Invalid email format")
+    @NotBlank
     private String email;
+
+    @NotBlank
     private String name;
-    private String phone;
+
+    @NotBlank
+    @Pattern(regexp = "^(\\+?\\d{1,3})?\\d{10}$",
+            message = "Must be 10 digits, format not valid")
+            private String phone;
+
+    @NotBlank
     private String password;
-    private String tax_id;
-    private String created_at;
-    private List<Address> addresses;
 
+    @NotBlank
+    @Pattern(regexp = "^[A-Z&Ññ]{3,4}\\d{6}[A-Z0-9]{3}$",
+            message = "Tax ID must be have RFC format")
+            private String tax_id;
 
-    public User() {
+    @Valid
+    @NotEmpty
+    private List<AddressDto> addresses;
+    
+
+    public UserDto() {
     }
 
-
-    public User(UUID id, String email, String name, String phone, String password, String tax_id, String created_at,
-            List<Address> addresses) {
-        this.id = id;
+    public UserDto(String email, String name, String phone, String password, String tax_id, List<AddressDto> addresses) {
         this.email = email;
         this.name = name;
         this.phone = phone;
         this.password = password;
         this.tax_id = tax_id;
-        this.created_at = created_at;
         this.addresses = addresses;
-    }
-
-
-    public UUID getId() {
-        return id;
-    }
-
-
-    public void setId(UUID id) {
-        this.id = id;
     }
 
 
@@ -47,73 +52,51 @@ public class User {
         return email;
     }
 
-
     public void setEmail(String email) {
         this.email = email;
     }
-
 
     public String getName() {
         return name;
     }
 
-
     public void setName(String name) {
         this.name = name;
     }
-
 
     public String getPhone() {
         return phone;
     }
 
-
     public void setPhone(String phone) {
         this.phone = phone;
     }
 
-
-    @JsonIgnore
     public String getPassword() {
         return password;
     }
-
 
     public void setPassword(String password) {
         this.password = password;
     }
 
-
     public String getTax_id() {
         return tax_id;
     }
-
 
     public void setTax_id(String tax_id) {
         this.tax_id = tax_id;
     }
 
-
-    public String getCreated_at() {
-        return created_at;
-    }
-
-
-    public void setCreated_at(String created_at) {
-        this.created_at = created_at;
-    }
-
-
-    public List<Address> getAddresses() {
+    public List<AddressDto> getAddresses() {
         return addresses;
     }
 
-
-    public void setAddresses(List<Address> addresses) {
+    public void setAddresses(List<AddressDto> addresses) {
         this.addresses = addresses;
     }
 
-    
 
+    
     
 }
